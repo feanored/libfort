@@ -11,8 +11,9 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Incluir os códigos
-set(SRC_DIR ${CMAKE_SOURCE_DIR}/clientcpp/src)
-add_executable(ClientCpp ${SRC_DIR}/main.cpp)
+add_executable(ClientCpp 
+    src/plugin.h
+    src/main.cpp)
 
 # Configuração específica para Windows
 if(WIN32)
