@@ -13,7 +13,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 # Incluir os códigos
 add_executable(ClientCpp 
     src/plugin.h
-    src/main.cpp)
+    src/main.cpp
+)
 
 # Configuração específica para Windows
 if(WIN32)

@@ -6,7 +6,7 @@ if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
 endif()
 
-if(UNIX AND NOT APPLE)
+if(UNIX)
     set(CMAKE_Fortran_COMPILER "gfortran")
 else()
     set(CMAKE_Fortran_COMPILER "ifort")
@@ -23,7 +23,7 @@ set_target_properties(my_fortran_lib PROPERTIES
 )
 
 # Definir propriedades para exportar símbolos no Linux
-if(UNIX AND NOT APPLE)
+if(UNIX)
     set_target_properties(my_fortran_lib PROPERTIES
         C_VISIBILITY_PRESET hidden
         Fortran_VISIBILITY_PRESET hidden
