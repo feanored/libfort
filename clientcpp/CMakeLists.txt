@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.15)
 
-project(ClientCpp LANGUAGES CXX)
+project(ExampleCpp LANGUAGES CXX)
 
 if(NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE Release)
@@ -11,21 +11,25 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 # Incluir os códigos
-add_executable(ClientCpp 
+add_executable(ExampleCpp 
     src/plugin.h
     src/main.cpp
 )
 
 # Configuração específica para Windows
 if(WIN32)
-    target_link_libraries(ClientCpp PRIVATE kernel32)
-endif()
-
-# Configuração específica para Linux
-if(UNIX AND NOT APPLE)
-    target_link_libraries(ClientCpp PRIVATE dl)
-endif()
-
-set_target_properties(ClientCpp PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin
+    target_link_libraries(ExampleCpp PRIVATE kernel32)
+    add_custom_command(TARGET ExampleCpp POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E rename
+            $<TARGET_FILE:ExampleCpp>
+            ../ExampleCpp.exe
 )
+else()
+    target_link_libraries(ExampleCpp PRIVATE dl)
+    add_custom_command(TARGET ExampleCpp POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E rename
+            $<TARGET_FILE:ExampleCpp>
+            ../ExampleCpp
+)
+endif()
+

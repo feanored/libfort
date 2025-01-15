@@ -2,21 +2,22 @@
 #include <iomanip>
 #include "plugin.h"
 
-// define a assinatura das funções importadas
+// define a assinatura das funÃ§Ãµes importadas
 typedef void (*func_dtype)(float&, float&, float&);
 typedef void (*func_itype)(int&, int&);
 
 int main() {
+    setlocale(LC_ALL, "pt_br");
     // Carregar a DLL
-    std::string libName = "./my_fortran_lib" LIB_EXTENSION;
+    std::string libName = "./lib_fortran" LIB_EXTENSION;
     LIB_HANDLE libHandle = load_library(libName.c_str());
 
-    // Obter as funções
+    // Obter as funÃ§Ãµes
     func_dtype add = (func_dtype)load_function(libHandle, "add");
     func_dtype mult = (func_dtype)load_function(libHandle, "mult");
     func_itype fat = (func_itype)load_function(libHandle, "fat");
 
-    // Usar as funções
+    // Usar as funÃ§Ãµes
     float a = 5, b = -1, c;
     int n = 5, f;
 
@@ -29,7 +30,7 @@ int main() {
     std::cout << "Resultado de: " << a << " * " << b << " = " << c << std::endl;
 
     fat(n, f);
-    std::cout << "Resultado de: " << n << "! = " << f << std::endl;
+    std::cout << "Resultado de: " << n << "! Ã© " << f << std::endl;
 
     // Liberar a DLL
     FREE_LIBRARY(libHandle);

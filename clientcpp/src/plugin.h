@@ -14,7 +14,6 @@
 #define LIB_EXTENSION ".dll"
 #else
 #include <dlfcn.h>
-#include <unistd.h>
 #define LIB_HANDLE void*
 #define FUNC_PTR void*
 #define LOAD_LIBRARY(name) dlopen(name, RTLD_LOCAL | RTLD_LAZY)
@@ -26,7 +25,7 @@
 LIB_HANDLE load_library(const char* libFile) {
   LIB_HANDLE libHandle = LOAD_LIBRARY(libFile);
   if (!libHandle) {
-    std::cerr << "Erro ao carregar a biblioteca " << libFile << std::endl;
+    std::cerr << "[Fatal] => Erro ao carregar a biblioteca \"" << libFile << "\"" << std::endl;
     exit(1);
   }
   return libHandle;
@@ -35,7 +34,7 @@ LIB_HANDLE load_library(const char* libFile) {
 FUNC_PTR load_function(LIB_HANDLE libHandle, const char* function) {
   FUNC_PTR func = GET_PROC_ADDRESS(libHandle, function);
   if (!func) {
-    std::cerr << "Erro ao localizar o simbolo " << function <<  " na lib" << std::endl;
+    std::cerr << "[Fatal] => Erro ao localizar o símbolo \"" << function <<  "\" na lib" << std::endl;
     FREE_LIBRARY(libHandle);
     exit(1);
   }

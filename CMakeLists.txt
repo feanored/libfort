@@ -12,35 +12,35 @@ else()
     set(CMAKE_Fortran_COMPILER "ifort")
 endif()
 
-# Incluir os códigos
-set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
-
 # Definir a biblioteca a ser criada
-add_library(my_fortran_lib SHARED ${SRC_DIR}/my_module.f90)
-
-set_target_properties(my_fortran_lib PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin
+add_library(lib_fortran SHARED 
+    ${CMAKE_SOURCE_DIR}/src/my_module.f90
 )
 
 # Definir propriedades para exportar símbolos no Linux
 if(UNIX)
-    set_target_properties(my_fortran_lib PROPERTIES
+    set_target_properties(lib_fortran PROPERTIES
         C_VISIBILITY_PRESET hidden
         Fortran_VISIBILITY_PRESET hidden
         VISIBILITY_INLINES_HIDDEN ON
     )
-    target_compile_options(my_fortran_lib PRIVATE "-fvisibility=hidden")
-    add_custom_command(TARGET my_fortran_lib POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy
-                $<TARGET_FILE:my_fortran_lib>
-                ${CMAKE_SOURCE_DIR}/bin/my_fortran_lib.so
+    target_compile_options(lib_fortran PRIVATE "-fvisibility=hidden")
+    add_custom_command(TARGET lib_fortran POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E rename
+                $<TARGET_FILE:lib_fortran>
+                lib_fortran.so
     )
 else()
     # Exportar as funções no Windows
-    set_target_properties(my_fortran_lib PROPERTIES
+    set_target_properties(lib_fortran PROPERTIES
         LINKER_LANGUAGE Fortran
-        OUTPUT_NAME "my_fortran_lib"
+        OUTPUT_NAME "lib_fortran"
         WINDOWS_EXPORT_ALL_SYMBOLS ON
+    )
+    add_custom_command(TARGET lib_fortran POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E rename
+                $<TARGET_FILE:lib_fortran>
+                lib_fortran.dll
     )
 endif()
 
