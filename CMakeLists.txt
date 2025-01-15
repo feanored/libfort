@@ -17,7 +17,7 @@ add_library(lib_fortran SHARED
     ${CMAKE_SOURCE_DIR}/src/my_module.f90
 )
 
-# Definir propriedades para exportar símbolos no Linux
+# Definir propriedades para exportar símbolos
 if(UNIX)
     set_target_properties(lib_fortran PROPERTIES
         C_VISIBILITY_PRESET hidden
@@ -37,10 +37,8 @@ else()
         OUTPUT_NAME "lib_fortran"
         WINDOWS_EXPORT_ALL_SYMBOLS ON
     )
-    add_custom_command(TARGET lib_fortran POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E rename
-                $<TARGET_FILE:lib_fortran>
-                lib_fortran.dll
+    set_target_properties(lib_fortran PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build
     )
 endif()
 

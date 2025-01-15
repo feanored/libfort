@@ -19,11 +19,9 @@ add_executable(ExampleCpp
 # Configuração específica para Windows
 if(WIN32)
     target_link_libraries(ExampleCpp PRIVATE kernel32)
-    add_custom_command(TARGET ExampleCpp POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E rename
-            $<TARGET_FILE:ExampleCpp>
-            ../ExampleCpp.exe
-)
+    set_target_properties(ExampleCpp PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/build
+    )
 else()
     target_link_libraries(ExampleCpp PRIVATE dl)
     add_custom_command(TARGET ExampleCpp POST_BUILD

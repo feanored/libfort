@@ -7,7 +7,6 @@ typedef void (*func_dtype)(float&, float&, float&);
 typedef void (*func_itype)(int&, int&);
 
 int main() {
-    setlocale(LC_ALL, "pt_br");
     // Carregar a DLL
     std::string libName = "./lib_fortran" LIB_EXTENSION;
     LIB_HANDLE libHandle = load_library(libName.c_str());
@@ -30,7 +29,7 @@ int main() {
     std::cout << "Resultado de: " << a << " * " << b << " = " << c << std::endl;
 
     fat(n, f);
-    std::cout << "Resultado de: " << n << "! é " << f << std::endl;
+    std::cout << "Resultado de: " << n << "! = " << f << std::endl;
 
     // Liberar a DLL
     FREE_LIBRARY(libHandle);
